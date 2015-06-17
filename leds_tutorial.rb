@@ -13,19 +13,12 @@ device :button, driver: :button, pin: 12, interval: 0.01
 work do
   puts "Press the button connected on pin #{ button.pin }..."
   on button, :release => proc {
-    are_on? ? turn("off") : turn("on")
+    toggle
   }
 end
 
-def are_on?
+def toggle
   LEDS.each do |led|
-    return false if eval(led).off?
-  end
-  true
-end
-
-def turn(sw)
-  LEDS.each do |led|
-    eval(led).send(sw)
+    eval(led).toggle
   end
 end
